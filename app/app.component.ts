@@ -1,17 +1,11 @@
 import {Component} from "@angular/core";
+import {NS_ROUTER_DIRECTIVES} from 'nativescript-angular/router';
 
 @Component({
-  selector: "my-app",
-  template: `
-    <StackLayout>
-      <Image src="res://logo_login" stretch="none" horizontalAlignment="center"></Image>
-      <TextField hint="Email Address" keyboardType="email" autocorrect="false" autoCapitalizationType="none"></TextField>
-      <TextField hint="Password" secure="true"></TextField>
-
-      <Button class="submit-button" text="Sign in"></Button>
-      <Button text="Sign up for Groceries"></Button>
-    </StackLayout>
-  `,
-  styleUrls: ['pages/login/login-common.css', 'pages/login/login.css']
+  selector: "main",
+  template: '<page-router-outlet></page-router-outlet>',
+  directives: [NS_ROUTER_DIRECTIVES]
 })
-export class AppComponent {}
+export class AppComponent {
+  
+}
