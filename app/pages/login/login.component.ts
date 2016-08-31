@@ -10,6 +10,8 @@ import {Router} from '@angular/router';
 import {Page} from 'ui/page';
 import {Color} from 'color';
 import {View} from 'ui/core/view';
+import {setHintColor} from '../../utils/hint-util';
+import {TextField} from 'ui/text-field';
 
 @Component({
   selector: "my-app",
@@ -20,7 +22,10 @@ import {View} from 'ui/core/view';
 export class LoginPage implements OnInit {
   user:User;
   isLoggedIn:boolean = true;
+  isLoggingIn:boolean = true;
   @ViewChild('container') container:ElementRef;
+  @ViewChild('email') emailRef:ElementRef;
+  @ViewChild('password') passwordRef:ElementRef;
 
   constructor(private userService:UserService, private router:Router, private page:Page) {
     this.user = new User();
@@ -31,6 +36,19 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.page.actionBarHidden = true;
     this.page.backgroundImage = "res://bg_login";
+  }
+
+  setTextFieldColors() {
+    let emailTextField:TextField = <TextField>this.emailRef.nativeElement;
+    let passwordTextField:TextField = <TextField>this.passwordRef.nativeElement;
+
+    let mainTextColor:Color = new Color(this.isLoggedIn ? "black" : "#C4AFB4");
+    emailTextField.color = mainTextColor;
+    passwordTextField.color = mainTextColor;
+
+    let hintColor:Color = new Color(this.isLoggedIn ? "#ACA6A7" : "#C4AFB4");
+    setHintColor({view: emailTextField, color: hintColor});
+    setHintColor({view: passwordTextField, color: hintColor});
   }
 
   submit() {
@@ -70,7 +88,8 @@ export class LoginPage implements OnInit {
     container.animate({
       backgroundColor: this.isLoggedIn ? new Color('white') : new Color('#301217'),
       duration: 200
-    })
+    });
+    this.setTextFieldColors();
   }
 
   
