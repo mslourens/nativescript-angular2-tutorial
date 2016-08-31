@@ -8,6 +8,8 @@ import {GroceryService} from '../../shared/grocery/grocery-list.service';
 import {IGrocery} from '../../shared/grocery/grocery.interface';
 import {TextField} from 'ui/text-field';
 
+let socialShare = require('nativescript-social-share');
+
 @Component({
   selector: 'list',
   templateUrl: 'pages/list/list.html',
@@ -57,5 +59,11 @@ export class ListPage implements OnInit{
         },
         () => this.grocery = ''
       );
+  };
+
+  share() {
+    let list:Array<string> = this.groceryList.map(grocery => grocery.name);
+    let listString:string = list.join(', ').trim();
+    socialShare.shareText(listString);
   }
 }

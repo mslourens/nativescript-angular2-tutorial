@@ -50,7 +50,10 @@ export class LoginPage implements OnInit {
   }
 
   signup() {
-    console.log(`Your email is: ${this.user.email}`);
+    if (!this.user.isValidEmail()) {
+      alert("Enter a valid email address")
+      return
+    }
     this.userService.registerUser(this.user)
       .subscribe(() => {
         alert("Your account was successfully created.");
