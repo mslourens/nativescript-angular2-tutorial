@@ -9,8 +9,6 @@ export class UserService {
   constructor(private http:Http) {};
 
   registerUser(user:User) {
-
-
     return this.http.post(`${Config.apiUrl}Users`, JSON.stringify({
       Username: user.email,
       Email: user.email,
