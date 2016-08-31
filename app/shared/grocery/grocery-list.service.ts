@@ -10,7 +10,7 @@ export class GroceryService {
   constructor(private http:Http) {}
 
   load() {
-    return this.http.get(`${Config.apiUrl}Groceries`, {headers: GroceryService.getHeaders()})
+    return this.http.get(`${Config.apiUrl}Groceries`, GroceryService.getHeaders())
       .map(response => response.json())
       .map(data => {
         let groceryList:Array<IGrocery> = [];
@@ -21,11 +21,17 @@ export class GroceryService {
   }
 
   add(groceryItem:string) {
-    return this.http.post(`${Config.apiUrl}Groceries`, JSON.stringify({Name: groceryItem}), {headers: GroceryService.getHeaders()})
+    return this.http.post(`${Config.apiUrl}Groceries`, JSON.stringify({Name: groceryItem}), GroceryService.getHeaders())
       .map(res => res.json())
       .map(data => {
         return new Grocery(data.Result.Id, groceryItem)
       })
+      .catch(GroceryService.handleErrors);
+  }
+
+  remove(id: string) {
+    return this.http.delete(`${Config.apiUrl}Groceries/${id}`, GroceryService.getHeaders())
+      .map(res => res.json())
       .catch(GroceryService.handleErrors);
   }
 
@@ -39,6 +45,6 @@ export class GroceryService {
     headers.append('Authorization', 'Bearer ' + Config.token);
     headers.append('Content-Type', 'application/json');
 
-    return headers;
+    return {headers: headers};
   }
 }

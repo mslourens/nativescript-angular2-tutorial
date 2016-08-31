@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   ViewChild,
-  ElementRef
+  ElementRef,
+  NgZone
 } from '@angular/core';
 import {GroceryService} from '../../shared/grocery/grocery-list.service';
 import {IGrocery} from '../../shared/grocery/grocery.interface';
@@ -23,7 +24,7 @@ export class ListPage implements OnInit{
   isLoading:boolean = false;
   listLoaded:boolean = false;
 
-  constructor(private groceryService:GroceryService) {}
+  constructor(private groceryService:GroceryService, private zone: NgZone) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -60,6 +61,22 @@ export class ListPage implements OnInit{
         () => this.grocery = ''
       );
   };
+
+  remove(grocery:IGrocery) {
+    this.groceryService.remove(grocery.id).subscribe(
+      (data) => {
+        this.zone.run(() => {
+          var index = this.groceryList.indexOf(grocery);
+          this.groceryList.splice(index, 1);
+        });
+      },
+      () => {
+        alert({
+          message: 'An error occurred when removing the item',
+          okButtonText: 'OK'
+        });
+      })
+  }
 
   share() {
     let list:Array<string> = this.groceryList.map(grocery => grocery.name);

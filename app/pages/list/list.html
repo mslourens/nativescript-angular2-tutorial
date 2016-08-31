@@ -8,7 +8,10 @@
   </GridLayout>
   <ListView [items]="groceryList" class="small-spacing" row="1" [class.visible]="listLoaded">
     <template let-item="item">
-      <Label [text]="item.name" class="medium-spacing"></Label>
+      <GridLayout columns="*, auto" class="item">
+        <Label [text]="item.name" class="medium-spacing" col="0"></Label>
+        <Image src="res://delete" col="1" (tap)="remove(item)" class="delete_icon"></Image>
+      </GridLayout>
     </template>
   </ListView>
   <ActivityIndicator

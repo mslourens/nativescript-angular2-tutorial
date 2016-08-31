@@ -19,6 +19,14 @@ ListView {
   animation-name: show;
   animation-duration: 1s;
 }
+
+.item {
+  background-color: #efefef;
+}
+
+.delete_icon {
+  margin-right: 5;
+}
 @keyframes show {
   from { opacity: 0; }
   to { opacity: 1; }
